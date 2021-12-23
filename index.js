@@ -24,7 +24,8 @@ export default class TabSelectorAnimation extends PureComponent {
     translateX: new Animated.Value(0),
     translateXTabOne: new Animated.Value(0),
     translateXTabTwo: new Animated.Value(width),
-    translateY: -1000
+    translateY: -1000,
+    height: 0,
   }
 
   handleSlide = (type, index) => {
@@ -73,7 +74,8 @@ export default class TabSelectorAnimation extends PureComponent {
       style,
       styleTitle,
       backgroundColor,
-      styleTab
+      styleTab,
+      styleSelectedTab,
     } = this.props
     const { translateX } = this.state
     return (
@@ -89,8 +91,10 @@ export default class TabSelectorAnimation extends PureComponent {
         <Animated.View
           style={[
             styles.animatedView,
+            styleSelectedTab,
             {
               width: `${97 / tabs.length}%`,
+              height,
               transform: [
                 {
                   translateX
@@ -105,7 +109,8 @@ export default class TabSelectorAnimation extends PureComponent {
             style={[styles.tab, styleTab]}
             onLayout={(event) =>
               this.setState({
-                [`xTab${index}`]: event.nativeEvent.layout.x
+                [`xTab${index}`]: event.nativeEvent.layout.x,
+                height: event.nativeEvent.layout.height,
               })
             }
             onPress={() =>
@@ -126,15 +131,11 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: 20,
-    height: 38
   },
   tab: {
     flex: 1,
-    height: 38,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 20
   },
   textTitle: {
     fontSize: 13,
@@ -143,15 +144,9 @@ const styles = StyleSheet.create({
   animatedView: {
     position: 'absolute',
     height: 34,
-    top: 2,
+    top: 0,
     left: 0,
-    marginHorizontal: 2,
-    shadowOffset: { width: 0, height: 0 },
-    shadowColor: COLORS.shadowColor,
-    shadowRadius: 3,
-    shadowOpacity: 1,
     backgroundColor: COLORS.backgroundColorItem,
-    borderRadius: 20
   }
 })
 
